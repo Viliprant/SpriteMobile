@@ -3,22 +3,10 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 
 //FUNCTIONS  ----------------------------------------------------------
 
-//POUR LES FONDS
-function CreateRect(x,y,width,height,color)
-{
-		context.fillStyle = color;
-		context.fillRect(x,y,width,height);
-}
+//TILEMAP
 
-function CreateImage(x,y,width,height,image)
-	{
-		let MonImage = new Image(width, height);
-		MonImage.addEventListener("load", function(event) {
-			console.log(context);
-  			context.drawImage(MonImage,x,y,width,height);
-		}, false);
-		MonImage.src = image;
-	}
+
+
 
 //RECUPERER LES LIGNES D'ENTREE
 function input()
@@ -29,29 +17,13 @@ function input()
 //AGIR EN CONSEQUENCE DES INPUTS SUR LES VARIABLES
 function animate()
 	{
-		for (carre of ArmeeDeCarres) {
-
-			GestionDesBord(carre);
 		
-
-			carre.position.x += carre.vitesse.x * carre.direction.x;
-			carre.position.y += carre.vitesse.y * carre.direction.y;
-		}
 	}
 
 // AFFICHER A L'ECRAN LES ELEMENTS
 function render()
 	{
-		// BORDURE
-		CreateRect(0,0,600,400,"#a1bdea");
-
-		// BACKGROUND
-		CreateRect(5,5,caneva.width,caneva.height,"white");
 		
-		// CARRE MOBILE
-		for (carre of ArmeeDeCarres) {
-			carre.CreateRect(carre.position.x, carre.position.y, carre.carre.width, carre.carre.height, carre.color);
-		}
 	}
 
 function GameLoop()
@@ -68,21 +40,11 @@ function GameLoop()
 //POUR LES SOLDATS
 function CreateCarre()
 	{
-		let propriete = {	position : {x : 5, y : 5},
-							vitesse : {x : 3, y : 3},
-							direction : {x : 1, y : 1},
-							carre : {width : 20 , height : 20},
-							color : "black",
-							CreateRect : function(x,y,width,height,color){
-								context.fillStyle = color;
-								context.fillRect(x,y,width,height);
-							}
-						};
-		return propriete;
+		
 	}
 
 // GERE LES COLLISIONS AVEC LES BORDS
-function GestionDesBord(carre)
+function GestionDesBord(sprite)
 	{
 		if(carre.position.x > caneva.width - carre.carre.width)
 		{
@@ -111,7 +73,7 @@ function GestionDesBord(carre)
 	}
 
 // GERE LES SOLDATS  !!!
-function ControleurArmee(carre)
+function ControleurArmee(sprite)
 {
 	let nbSoldatsMax = 100,
 		color = ["red","blue","green","purple","yellow","pink","salmon","cyan", "magenta"],
@@ -128,8 +90,11 @@ function ControleurArmee(carre)
 }
 //---------------------------------------------------------------------
 
-let caneva = {width : 590 , height : 390},
+let caneva = {width :600 , height : 400},
 	ArmeeDeCarres = [];
 	ArmeeDeCarres.push(CreateCarre());
 
+
+
+//LANCER LE JEUX
 GameLoop();
