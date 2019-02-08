@@ -3,13 +3,13 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 
 // VARIABLES
 	
-	let caneva = {width :464 , height : 288},
-		SpriteSheets = LoadSpriteSheets();
+	let caneva = {width :464 , height : 287},
+		SpriteSheets = LoadSpriteSheets(),
+		sizeTile = 16;
 		ArmeeDeSprite = [];
 		ArmeeDeSprite.push(CreateSprite(SpriteSheets[11],16, 10));
 
 	let isMoving;
-
 
 //FUNCTIONS  ----------------------------------------------------------
 
@@ -39,6 +39,9 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 	function animate()
 		{
 			MoveSprite();
+			GestionCollision();
+			ArmeeDeSprite[0].LocaliserSprite();
+
 		}
 
 	// AFFICHER A L'ECRAN LES ELEMENTS
@@ -123,6 +126,7 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 						tailleImage : {width : 15 , height : 22},
 						vitesse : {x : 3, y : 3},
 						direction : {x : 1, y : 1},
+						case : {x : 1, y: 1},
 						image : img,
 						//Pour faire varier les images
 						step : 0.1,
@@ -138,8 +142,12 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 								sprite.step = 0.1
 							}
 							sprite.step += 0.1;
+						},
+						LocaliserSprite : function()
+						{
+							sprite.case.x = sprite.positionCaneva.x / sizeTile + 1;
+							sprite.case.y = (sprite.positionCaneva.y + 6) / sizeTile + 1;
 						}
-
 					};
 
 		return sprite;
@@ -165,19 +173,42 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 		switch (isMoving) 
 		{
 			case "z":
-				ArmeeDeSprite[0].positionCaneva.y -= 16;
+				ArmeeDeSprite[0].positionCaneva.y -= sizeTile;
 				break;
 			case "d":
-				ArmeeDeSprite[0].positionCaneva.x += 16;
+				ArmeeDeSprite[0].positionCaneva.x += sizeTile;
 				break;
 			case "s":
-				ArmeeDeSprite[0].positionCaneva.y += 16;
+				ArmeeDeSprite[0].positionCaneva.y += sizeTile;
 				break;
 			case "q":
-				ArmeeDeSprite[0].positionCaneva.x -= 16;
+				ArmeeDeSprite[0].positionCaneva.x -= sizeTile;
 				break;
 		}
 		isMoving = "";
+	}
+
+	function GestionCollision()
+	{
+		for (sprite of ArmeeDeSprite) {
+
+			if(sprite.positionCaneva.x > caneva.width - 2 * sizeTile)
+			{
+				sprite.positionCaneva.x = caneva.width - 2 * sizeTile;
+			}
+			if(sprite.positionCaneva.x < sizeTile)
+			{
+				sprite.positionCaneva.x = sizeTile;
+			}
+			if(sprite.positionCaneva.y > caneva.height - 2 * sizeTile)
+			{
+				sprite.positionCaneva.y = caneva.height - 2 * sizeTile - 6;
+			}
+			if(sprite.positionCaneva.y < sizeTile - 10)
+			{
+				sprite.positionCaneva.y = sizeTile - 6;
+			}
+		}
 	}
 
 function CreateRect(x,y,width,height,color)
