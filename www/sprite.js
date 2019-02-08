@@ -1,6 +1,21 @@
 //TROUVER LE CONTEXTE
 let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 
+//CLASS
+	class Tile {
+
+		constructor(collision, clipPoint, image, context){
+			this.collision = collision;
+			this.clipPoint = clipPoint;
+			this.SpriteSheet = image;
+			this.context = context;
+		}
+		
+		DrawTile(columns,rows){
+		context.drawImage(this.SpriteSheet, this.clipPoint.x,this.clipPoint.y, 16, 16, columns * 16, rows * 16, 16, 16);
+		}
+	}
+
 // VARIABLES
 	
 	let caneva = {width :464 , height : 287},
@@ -10,6 +25,41 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 		ArmeeDeSprite.push(CreateSprite(SpriteSheets[11],16, 10));
 
 	let isMoving;
+// MAP
+let tileArray = [
+				//Sol
+				new Tile(false,{x : 16*1, y : 16*4},SpriteSheets[11],context),
+				//Mur
+				new Tile(true,{x : 16*1, y : 16*1},SpriteSheets[11],context),
+				//Sol cassé
+				new Tile(false,{x : 16*2, y : 16*4},SpriteSheets[11],context),
+				//Sol
+				new Tile(false,{x : 16*3, y : 16*6},SpriteSheets[11],context),
+				//Sol
+				new Tile(false,{x : 16*1, y : 16*11},SpriteSheets[11],context)
+				
+				];
+
+let tileMap = [	
+				[tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[0],tileArray[Math.trunc(Math.random()*5)],tileArray[0],tileArray[0],tileArray[1]],
+				[tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1],tileArray[1]]
+				];
 
 //FUNCTIONS  ----------------------------------------------------------
 
@@ -39,7 +89,7 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 	function animate()
 		{
 			MoveSprite();
-			GestionCollision();
+			//GestionCollision();
 			ArmeeDeSprite[0].LocaliserSprite();
 
 		}
@@ -72,43 +122,11 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 //TILEMAP
 	function CreateMap()
 	{
-		let tileMap = [	
-						[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-						[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-						],
-			clipPoint = {x : 0, y : 0};
-
 			for(let rows = 0 ; rows < tileMap.length ; rows++)
 			{
 				for(let columns = 0 ; columns < tileMap[rows].length ; columns++)
 				{
-					switch (tileMap[rows][columns]) {
-						case 0:
-							// GROUND
-							clipPoint = {x : 16, y : 64};
-							break;
-						case 1:
-							// WALL
-							clipPoint = {x : 16, y : 16};
-							break;
-					}
-					context.drawImage(SpriteSheets[11], clipPoint.x, clipPoint.y, 16, 16, columns * 16, rows * 16, 16, 16);
+					tileMap[rows][columns].DrawTile(columns,rows);
 				}
 			}
 
@@ -173,44 +191,32 @@ let context = document.getElementsByTagName("canvas")[0].getContext("2d");
 		switch (isMoving) 
 		{
 			case "z":
-				ArmeeDeSprite[0].positionCaneva.y -= sizeTile;
+				if(tileMap[ArmeeDeSprite[0].case.y - 2][ArmeeDeSprite[0].case.x - 1].collision == false)
+				{
+					ArmeeDeSprite[0].positionCaneva.y -= sizeTile;
+				}
 				break;
 			case "d":
-				ArmeeDeSprite[0].positionCaneva.x += sizeTile;
+				if(tileMap[ArmeeDeSprite[0].case.y - 1][ArmeeDeSprite[0].case.x].collision == false)
+				{
+					ArmeeDeSprite[0].positionCaneva.x += sizeTile;
+				}
 				break;
 			case "s":
-				ArmeeDeSprite[0].positionCaneva.y += sizeTile;
+				if(tileMap[ArmeeDeSprite[0].case.y][ArmeeDeSprite[0].case.x - 1].collision == false)
+				{
+					ArmeeDeSprite[0].positionCaneva.y += sizeTile;
+				}
 				break;
 			case "q":
-				ArmeeDeSprite[0].positionCaneva.x -= sizeTile;
+				if(tileMap[ArmeeDeSprite[0].case.y - 1][ArmeeDeSprite[0].case.x - 2].collision == false)
+				{
+					ArmeeDeSprite[0].positionCaneva.x -= sizeTile;
+				}
 				break;
 		}
 		isMoving = "";
 	}
-
-	function GestionCollision()
-	{
-		for (sprite of ArmeeDeSprite) {
-
-			if(sprite.positionCaneva.x > caneva.width - 2 * sizeTile)
-			{
-				sprite.positionCaneva.x = caneva.width - 2 * sizeTile;
-			}
-			if(sprite.positionCaneva.x < sizeTile)
-			{
-				sprite.positionCaneva.x = sizeTile;
-			}
-			if(sprite.positionCaneva.y > caneva.height - 2 * sizeTile)
-			{
-				sprite.positionCaneva.y = caneva.height - 2 * sizeTile - 6;
-			}
-			if(sprite.positionCaneva.y < sizeTile - 10)
-			{
-				sprite.positionCaneva.y = sizeTile - 6;
-			}
-		}
-	}
-
 function CreateRect(x,y,width,height,color)
 {
 		context.fillStyle = color;
